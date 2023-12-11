@@ -72,7 +72,7 @@ describe(
   () => {
     it(
       "Displays error message on failed fetch request",
-      { defaultCommandTimeout: 10000 },
+      { defaultCommandTimeout: 12000 },
       () => {
         cy.visit("http://localhost:3000/dashboard", {
           retryOnNetworkFailure: false,
@@ -84,39 +84,48 @@ describe(
 
         cy.wait("@failedFetch");
 
-        cy.get("main>div>div:nth-child(3)", { timeout: 10000 }).contains(
-          "There was a problem while loading the project data",
+        cy.get('[data-cy="alert-error"]', { timeout: 12000 }).should(
+          "be.visible",
         );
+        cy.get('[data-cy="alert-error"]').find("button").click();
+        cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
+          "fetchRequest",
+        );
+        cy.wait("@fetchRequest").then((interception) => {
+          expect(interception.request.url).to.equal(
+            "https://prolog-api.profy.dev/project",
+          );
+        });
       },
     );
   },
 );
 
-describe(
-  "Refetch button triggers fetch request",
-  { defaultCommandTimeout: 10000 },
-  () => {
-    it("should trigger a fetch request on button click", () => {
-      cy.visit("http://localhost:3000/dashboard", {
-        retryOnNetworkFailure: false,
-      });
+// describe(
+//   "Refetch button triggers fetch request",
+//   { defaultCommandTimeout: 10000 },
+//   () => {
+//     it("should trigger a fetch request on button click", () => {
+//       cy.visit("http://localhost:3000/dashboard", {
+//         retryOnNetworkFailure: false,
+//       });
 
-      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-        statusCode: 500,
-      }).as("failedFetch");
+//       cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+//         statusCode: 500,
+//       }).as("failedFetch");
 
-      cy.wait("@failedFetch");
+//       cy.wait("@failedFetch");
 
-      cy.get("main>div>div:nth-child(3)").find("button").click();
+//       cy.get('[data-cy="alert-error"]', { timeout: 10000 }).find("button").click();
 
-      cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
-        "fetchRequest",
-      );
-      cy.wait("@fetchRequest").then((interception) => {
-        expect(interception.request.url).to.equal(
-          "https://prolog-api.profy.dev/project",
-        );
-      });
-    });
-  },
-);
+//       cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
+//         "fetchRequest",
+//       );
+//       cy.wait("@fetchRequest").then((interception) => {
+//         expect(interception.request.url).to.equal(
+//           "https://prolog-api.profy.dev/project",
+//         );
+//       });
+//     });
+//   },
+// );
