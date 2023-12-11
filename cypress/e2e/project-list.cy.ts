@@ -59,3 +59,34 @@ describe("Project List", () => {
     });
   });
 });
+
+describe("Error Handling", () => {
+  it(
+    "Displays error message on failed fetch request",
+    { defaultCommandTimeout: 12000 },
+    () => {
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        forceNetworkError: true,
+      }).as("failedFetch");
+
+      cy.visit("http://localhost:3000/dashboard", {
+        retryOnNetworkFailure: false,
+      });
+
+      cy.wait("@failedFetch");
+
+      cy.get('[data-cy="alert-error"]', { timeout: 12000 }).should(
+        "be.visible",
+      );
+      cy.get('[data-cy="alert-error"]').find("button").click();
+      cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
+        "fetchRequest",
+      );
+      cy.wait("@fetchRequest").then((interception) => {
+        expect(interception.request.url).to.equal(
+          "https://prolog-api.profy.dev/project",
+        );
+      });
+    },
+  );
+});
