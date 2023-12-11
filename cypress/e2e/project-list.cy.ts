@@ -60,72 +60,40 @@ describe("Project List", () => {
   });
 });
 
-describe(
-  "Error Handling",
-  {
-    retries: {
-      runMode: 0,
-      openMode: 0,
-    },
-  },
-
-  () => {
-    it(
-      "Displays error message on failed fetch request",
-      { defaultCommandTimeout: 12000 },
-      () => {
-        cy.visit("http://localhost:3000/dashboard", {
-          retryOnNetworkFailure: false,
-        });
-
-        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-          statusCode: 500,
-        }).as("failedFetch");
-
-        cy.wait("@failedFetch");
-
-        cy.get('[data-cy="alert-error"]', { timeout: 12000 }).should(
-          "be.visible",
-        );
-        cy.get('[data-cy="alert-error"]').find("button").click();
-        cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
-          "fetchRequest",
-        );
-        cy.wait("@fetchRequest").then((interception) => {
-          expect(interception.request.url).to.equal(
-            "https://prolog-api.profy.dev/project",
-          );
-        });
-      },
-    );
-  },
-);
-
-// describe(
-//   "Refetch button triggers fetch request",
-//   { defaultCommandTimeout: 10000 },
-//   () => {
-//     it("should trigger a fetch request on button click", () => {
-//       cy.visit("http://localhost:3000/dashboard", {
-//         retryOnNetworkFailure: false,
-//       });
-
-//       cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-//         statusCode: 500,
-//       }).as("failedFetch");
-
-//       cy.wait("@failedFetch");
-
-//       cy.get('[data-cy="alert-error"]', { timeout: 10000 }).find("button").click();
-
-//       cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
-//         "fetchRequest",
-//       );
-//       cy.wait("@fetchRequest").then((interception) => {
-//         expect(interception.request.url).to.equal(
-//           "https://prolog-api.profy.dev/project",
-//         );
-//       });
-//     });
+describe("Error Handling", // {
+//   retries: {
+//     runMode: 0,
+//     openMode: 0,
 //   },
-// );
+// },
+
+() => {
+  it(
+    "Displays error message on failed fetch request",
+    { defaultCommandTimeout: 12000 },
+    () => {
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        forceNetworkError: true,
+      }).as("failedFetch");
+
+      cy.visit("http://localhost:3000/dashboard", {
+        retryOnNetworkFailure: false,
+      });
+
+      cy.wait("@failedFetch");
+
+      cy.get('[data-cy="alert-error"]', { timeout: 12000 }).should(
+        "be.visible",
+      );
+      cy.get('[data-cy="alert-error"]').find("button").click();
+      cy.intercept("GET", "https://prolog-api.profy.dev/project").as(
+        "fetchRequest",
+      );
+      cy.wait("@fetchRequest").then((interception) => {
+        expect(interception.request.url).to.equal(
+          "https://prolog-api.profy.dev/project",
+        );
+      });
+    },
+  );
+});
