@@ -5,11 +5,11 @@ const { publicRuntimeConfig } = getConfig();
 
 export function Footer() {
   return (
-    <div className={styles.footer}>
-      <div className={styles.version}>
+    <div className={styles.footer} data-cy="footer">
+      <div className={styles.version} data-cy="version">
         Version: {publicRuntimeConfig?.version}
       </div>
-      <div className={styles.footerLinks}>
+      <div className={styles.footerLinks} data-cy="links">
         <a href="#">Docs</a>
         <a href="#">API</a>
         <a href="#">Help</a>

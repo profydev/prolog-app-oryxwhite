@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 // eslint-disable-next-line
-const { version } = require('./package.json');
-
+const { version } = require("./package.json");
 
 const nextConfig = {
   publicRuntimeConfig: {
