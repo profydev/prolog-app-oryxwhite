@@ -60,7 +60,12 @@ describe("Project List", () => {
   });
 });
 
-describe("Error Handling", () => {
+describe("Error Handling", //     runMode: 0, //   retries: { // {
+//     openMode: 0,
+//   },
+// },
+
+() => {
   it(
     "Displays error message on failed fetch request",
     { defaultCommandTimeout: 12000 },
