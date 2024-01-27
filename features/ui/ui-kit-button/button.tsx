@@ -5,7 +5,7 @@ export type ButtonProps = {
   children?: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   as: "button" | "a";
-  href?: "string";
+  href?: string;
   disabled?: boolean;
   size: "small" | "medium" | "large" | "xlarge";
   color:
@@ -35,8 +35,6 @@ export function UIButton({
   iconAlt,
   iconPosition,
 }: ButtonProps) {
-  // const buttonClasses = `styles.button styles[${size}] styles[${color}] ${disabled ? 'styles.disabled' : ''}`;
-  // const iconOnly = iconPosition === 'only' ? styles["icon-only"] : ''
   if (as === "button") {
     return (
       <button
@@ -52,6 +50,7 @@ export function UIButton({
       >
         {icon && iconPosition === "leading" && (
           <span className={classNames(styles.icon, styles.leading)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             {<img src={iconSrc} alt={iconAlt} />}
           </span>
         )}
@@ -62,11 +61,13 @@ export function UIButton({
         )}
         {icon && iconPosition === "trailing" && (
           <span className={classNames(styles.icon, styles.trailing)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             {<img src={iconSrc} alt={iconAlt} />}
           </span>
         )}
         {icon && iconPosition === "only" && (
           <span className={classNames(styles.icon, styles.only)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             {<img src={iconSrc} alt={iconAlt} />}
           </span>
         )}
