@@ -20,10 +20,6 @@ export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  console.log(isSidebarCollapsed);
-  console.log(isMobileMenuOpen);
-
   return (
     <div
       className={classNames(
