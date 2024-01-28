@@ -143,3 +143,26 @@
     display: flex;
   }
 }
+
+.logoSmall {
+  width: 1.4375rem;
+  display: none;
+  margin: space.$s0 space.$s4;
+
+  @media (min-width: breakpoint.$desktop) {
+    &.isCollapsed {
+      display: block;
+    }
+  }
+}
+
+.logoLarge {
+  width: 7.375rem;
+  margin: space.$s0 space.$s4;
+
+  @media (min-width: breakpoint.$desktop) {
+    &.isCollapsed {
+      display: none;
+    }
+  }
+}
