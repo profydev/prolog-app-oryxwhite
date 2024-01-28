@@ -20,6 +20,7 @@ export type ButtonProps = {
   iconSrc?: string;
   iconAlt?: string;
   iconPosition?: "leading" | "trailing" | "only";
+  manualStyle?: React.CSSProperties;
 };
 
 export function UIButton({
@@ -34,6 +35,7 @@ export function UIButton({
   iconSrc,
   iconAlt,
   iconPosition,
+  manualStyle,
 }: ButtonProps) {
   if (as === "button") {
     return (
@@ -45,6 +47,7 @@ export function UIButton({
           disabled ? styles.disabled : "",
           iconPosition === "only" ? styles["icon-only"] : "",
         )}
+        style={manualStyle}
         disabled={disabled}
         onClick={onClick}
       >
