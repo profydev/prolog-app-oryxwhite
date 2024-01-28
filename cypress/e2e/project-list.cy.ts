@@ -60,6 +60,21 @@ describe("Project List", () => {
   });
 });
 
+describe("Loading Spinner", () => {
+  it("Displays loading spinner while project data is loading", () => {
+    // setup request mock
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+      fixture: "projects.json",
+    }).as("getProjects");
+
+    // open projects page
+    cy.visit("http://localhost:3000/dashboard");
+
+    // ensure the spinner element exists
+    cy.get('[data-cy="spinner"').should("exist");
+  });
+});
+
 describe("Error Handling", () => {
   it(
     "Displays error message on failed fetch request",
