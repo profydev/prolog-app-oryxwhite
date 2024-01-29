@@ -1,0 +1,228 @@
+@use "@styles/color";
+@use "@styles/font";
+@use "@styles/space";
+@use "@styles/breakpoint";
+@use "@styles/misc";
+
+.hero {
+  display: flex;
+  padding: 64px 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 64px;
+  align-self: stretch;
+  background-color: color.$gray-50;
+
+  img {
+    width: 343px;
+    height: 200px;
+  }
+
+  @media (width >= 768px) {
+    padding: 64px;
+  }
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  align-self: stretch;
+
+  h1 {
+    font: font.$text-2xl-semibold;
+    color: color.$gray-900;
+    letter-spacing: -1.2px;
+    text-align: center;
+    margin: 0;
+  }
+
+  p {
+    font: font.$text-lg-normal;
+    color: color.$gray-500;
+    text-align: center;
+    margin: 0;
+    max-width: 600px;
+  }
+}
+
+.social {
+  display: flex;
+  padding: 64px 16px;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: white;
+
+  p {
+    font: font.$text-md-medium;
+    color: color.$gray-500;
+    margin: auto;
+  }
+
+  @media (min-width: breakpoint.$desktop) {
+    background-color: color.$gray-50;
+  }
+}
+
+.social-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.logos-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+
+  @media (width >= 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32;
+  }
+
+  @media (min-width: breakpoint.$desktop) {
+    display: flex;
+    gap: 32px;
+  }
+}
+
+.grid-item {
+  width: 155px;
+  display: flex;
+
+  @media (min-width: breakpoint.$desktop) {
+    width: 100%;
+  }
+}
+
+.grid-item img {
+  height: 34px;
+  display: block;
+}
+
+.testimonial {
+  display: flex;
+  padding-top: 64px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+  align-self: stretch;
+  background-color: color.$gray-50;
+
+  .heading {
+    h2 {
+      font: font.$text-2xl-semibold;
+      color: color.$gray-900;
+      text-align: center;
+      margin: 0;
+    }
+
+    p {
+      font: font.$text-lg-normal;
+      letter-spacing: -1.2px;
+    }
+  }
+
+  .quotes {
+    @media (min-width: breakpoint.$desktop) {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    @media (width >= 1440px) {
+      display: flex;
+      flex-direction: row;
+      gap: 64px;
+    }
+  }
+
+  %quote-card {
+    display: flex;
+    padding: 64px 24px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    background-color: color.$primary-50;
+    border-radius: 16px;
+    flex-grow: 1;
+
+    @media (min-width: breakpoint.$desktop) {
+      max-width: 290px;
+      padding: 40px 24px;
+    }
+
+    @media (width >= 1440px) {
+      max-width: 327px;
+    }
+
+    .quote-heading {
+      h3 {
+        font: font.$text-sm-semibold;
+        color: color.$primary-800;
+        text-align: center;
+        margin: 0;
+        margin-bottom: 12px;
+      }
+
+      p {
+        font: font.$text-xl-medium;
+        text-align: center;
+        color: color.$primary-900;
+        margin: 0;
+      }
+    }
+
+    .quote-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: stretch;
+
+      h4 {
+        font: font.$text-md-medium;
+        color: color.$primary-900;
+        margin: 0;
+        margin-top: 16px;
+        margin-bottom: 4px;
+      }
+
+      h5 {
+        font: font.$text-sm-regular;
+        color: color.$primary-700;
+        margin: 0;
+      }
+    }
+  }
+
+  .quote-primary {
+    @extend %quote-card;
+  }
+
+  .quote-gray {
+    @extend %quote-card;
+
+    background-color: color.$gray-50;
+
+    .quote-heading {
+      p {
+        color: color.$gray-900;
+      }
+    }
+
+    .quote-content {
+      h4 {
+        color: color.$gray-900;
+      }
+
+      h5 {
+        color: color.$gray-500;
+      }
+    }
+  }
+}
