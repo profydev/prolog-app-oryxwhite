@@ -1,7 +1,8 @@
 // import { Routes } from "@config/routes";
 import styles from "./index.module.scss";
-import { Header } from "../features/layout/header/index";
-import { Modal } from "../features/layout/modal/index";
+import { Header } from "../features/landing/components/header";
+import { Modal } from "../features/landing/components/modal";
+import { Hero } from "../features/landing/components/hero";
 import { useState } from "react";
 
 const IssuesPage = () => {
@@ -13,6 +14,7 @@ const IssuesPage = () => {
   return (
     <div>
       <Header />
+      <Hero />
       <button className={styles.contactButton} onClick={openModal}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/message.svg" alt="Contact" />
