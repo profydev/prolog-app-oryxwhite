@@ -1,0 +1,75 @@
+@use "@styles/color";
+@use "@styles/font";
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 280px;
+}
+
+.input {
+  outline: none;
+  background-image: none;
+  background-color: transparent;
+  border: 1px solid color.$gray-300;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgb(16 24 40 / 5%);
+  padding: 10px 16px;
+  color: color.$gray-900;
+  width: 100%;
+
+  &.error {
+    border-color: color.$error-300;
+  }
+}
+
+.input:focus {
+  border-color: #d6bbfb;
+  box-shadow:
+    0 0 0 4px #f4ebff,
+    0 1px 2px 0 rgb(16 24 40 / 5%);
+}
+
+.input:focus.error {
+  border-color: color.$error-300;
+  box-shadow:
+    0 0 0 4px #fee4e2,
+    0 1px 2px 0 rgb(16 24 40 / 5%);
+}
+
+.input::placeholder {
+  font: font.$text-md-regular;
+  color: color.$gray-500;
+}
+
+.input:disabled {
+  background-color: color.$gray-50;
+}
+
+.icon {
+  position: absolute;
+  left: 20px;
+}
+
+.label {
+  font: font.$text-sm-medium;
+  color: color.$gray-700;
+}
+
+.hint {
+  font: font.$text-sm-regular;
+  color: color.$gray-500;
+}
+
+.error-message {
+  font: font.$text-sm-regular;
+  color: color.$error-500;
+}
+
+.error-icon {
+  position: absolute;
+  width: 16px;
+  margin-left: -30px;
+  margin-top: 13px;
+}
