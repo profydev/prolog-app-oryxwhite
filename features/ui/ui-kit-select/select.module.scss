@@ -1,0 +1,115 @@
+@use "@styles/color";
+@use "@styles/font";
+
+.dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+
+  .empty {
+    color: gray;
+  }
+
+  .selected-option {
+    padding: 10px 14px;
+    border: 1px solid color.$gray-300;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    background-color: white;
+    width: 100%;
+    text-align: left;
+
+    &:focus {
+      border-color: color.$primary-300;
+      box-shadow:
+        0 0 0 4px #f4ebff,
+        0 1px 2px 0 rgb(16 24 40 / 5%);
+    }
+
+    &:disabled {
+      background-color: color.$gray-50;
+    }
+
+    .arrow {
+      position: absolute;
+      right: 18px;
+      top: 45%;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .arrow.open {
+      transform: rotate(180deg);
+    }
+
+    &.error {
+      border-color: color.$error-300;
+
+      &:focus {
+        box-shadow:
+          0 0 0 4px #fee4e2,
+          0 1px 2px 0 rgb(16 24 40 / 5%);
+      }
+    }
+  }
+
+  .options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow:
+      0 4px 6px -2px rgb(16 24 40 / 5%),
+      0 12px 16px -4px rgb(16 24 40 / 10%);
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+
+    li {
+      padding: 10px 14px;
+      cursor: pointer;
+      font: font.$text-md-regular;
+
+      &:hover {
+        background: url("/icons/selectcheck.svg") no-repeat calc(100% - 14px)
+          9.5px color.$primary-50;
+        background-size: 20px;
+      }
+    }
+
+    li:nth-child(1) {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    li:nth-last-child(1) {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+  }
+
+  .label {
+    font: font.$text-sm-medium;
+    color: color.$gray-700;
+    padding-bottom: 8px;
+  }
+
+  .hint {
+    margin-top: 6px;
+    font: font.$text-sm-regular;
+    color: color.$gray-500;
+  }
+
+  .error-message {
+    margin-top: 6px;
+    font: font.$text-sm-regular;
+    color: color.$error-500;
+  }
+}
