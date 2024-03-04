@@ -4,6 +4,7 @@ import classNames from "classnames";
 export type InputProps = {
   placeholder: string;
   onChange: (e: string) => void;
+  value?: string | undefined;
   disabled?: boolean;
   icon?: string;
   label?: string;
@@ -15,6 +16,7 @@ export type InputProps = {
 export function UIInput({
   placeholder,
   onChange,
+  value,
   disabled,
   icon,
   label,
@@ -32,6 +34,7 @@ export function UIInput({
           type="text"
           className={classNames(styles.input, error && styles.error)}
           onChange={(e) => onChange(e.target.value)}
+          value={value}
           style={
             icon
               ? {

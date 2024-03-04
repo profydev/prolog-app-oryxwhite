@@ -132,6 +132,7 @@ export function IssueList() {
             onChange={handleSearch}
             placeholder="Project Name"
             icon="/icons/search.svg"
+            value={searchFilter}
           />
         </div>
       </div>
