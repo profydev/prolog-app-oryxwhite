@@ -1,32 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import styles from "./select.module.scss";
 
 export type SelectProps = {
   options: string[];
-  onSelect: (value: string) => void;
+  onSelect: (value: string | undefined) => void;
+  placeholder: string;
+  defaultOption?: string | undefined;
   disabled?: boolean;
   icon?: string;
   label?: string;
   hint?: string;
   error?: string;
+  width?: string;
 };
 
 export function UISelect({
   options,
   onSelect,
+  placeholder,
+  defaultOption,
   disabled,
   icon,
   label,
   error,
   hint,
+  width,
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (defaultOption) {
+      setSelectedOption(defaultOption);
+    } else if (defaultOption === undefined) {
+      setSelectedOption(null);
+    }
+  }, [defaultOption]);
+
   const handleSelect = (option: string) => {
     setSelectedOption(option);
     onSelect(option);
+    setIsOpen(false);
+  };
+
+  const handleReset = () => {
+    setSelectedOption(null);
+    onSelect("");
     setIsOpen(false);
   };
 
@@ -44,11 +64,15 @@ export function UISelect({
                 backgroundSize: "20px",
                 paddingLeft: "42px",
               }
-            : {}
+            : width
+              ? {
+                  width: width,
+                }
+              : {}
         }
       >
         <span className={selectedOption === null ? styles.empty : ""}>
-          {selectedOption || "Select an option"}
+          {selectedOption || placeholder}
         </span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -59,6 +83,9 @@ export function UISelect({
       </button>
       {isOpen && (
         <ul className={styles.options}>
+          <li className={styles.placeholder} onClick={() => handleReset()}>
+            {placeholder}
+          </li>
           {options.map((option, index) => (
             <li key={index} onClick={() => handleSelect(option)}>
               {option}

@@ -13,6 +13,18 @@
   overflow: hidden;
 }
 
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+
+  .inputs {
+    display: flex;
+    gap: 16px;
+    margin-right: 6px;
+  }
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;

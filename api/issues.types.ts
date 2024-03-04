@@ -13,4 +13,5 @@ export type Issue = {
   level: IssueLevel;
   numEvents: number;
   numUsers: number;
+  status: string;
 };

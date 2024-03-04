@@ -3,6 +3,7 @@ import classNames from "classnames";
 
 export type InputProps = {
   placeholder: string;
+  onChange: (e: string) => void;
   disabled?: boolean;
   icon?: string;
   label?: string;
@@ -13,6 +14,7 @@ export type InputProps = {
 
 export function UIInput({
   placeholder,
+  onChange,
   disabled,
   icon,
   label,
@@ -29,10 +31,11 @@ export function UIInput({
           disabled={disabled}
           type="text"
           className={classNames(styles.input, error && styles.error)}
+          onChange={(e) => onChange(e.target.value)}
           style={
             icon
               ? {
-                  background: "url('/icons/mailgray.svg') no-repeat 14px 9.5px",
+                  background: `url(${icon}) no-repeat 14px 9.5px`,
                   backgroundSize: "20px",
                   paddingLeft: "42px",
                 }
