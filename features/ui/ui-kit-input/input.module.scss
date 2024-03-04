@@ -17,7 +17,8 @@
   box-shadow: 0 1px 2px 0 rgb(16 24 40 / 5%);
   padding: 10px 16px;
   color: color.$gray-900;
-  width: 100%;
+
+  // width: 100%;
 
   &.error {
     border-color: color.$error-300;

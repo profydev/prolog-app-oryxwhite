@@ -3,18 +3,54 @@ import { ProjectLanguage } from "@api/projects.types";
 import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
+import { UISelect, UIInput, UIButton } from "@features/ui";
 import styles from "./issue-list.module.scss";
+
+export type status = "open" | "resolved" | undefined;
+export type level = "error" | "warning" | "info" | undefined;
+export type search = string | undefined;
 
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
-  const navigateToPage = (newPage: number) =>
+  const statusFilter = router.query.status as status;
+  const levelFilter = router.query.level as level;
+  const searchFilter = router.query.search as search;
+
+  // Adjust values to match the dropdown options
+  const statusDisplay =
+    statusFilter === "open"
+      ? "Unresolved"
+      : statusFilter === "resolved"
+        ? "Resolved"
+        : undefined;
+  const levelDisplay = levelFilter
+    ? levelFilter.charAt(0).toUpperCase() + levelFilter.slice(1)
+    : undefined;
+
+  const setFilters = (
+    page: number,
+    status: status,
+    level: level,
+    search: search,
+  ) => {
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: {
+        page: page,
+        status: status,
+        level: level,
+        search: search,
+      },
     });
+  };
 
-  const issuesPage = useGetIssues(page);
+  const issuesPage = useGetIssues(
+    page,
+    statusFilter,
+    levelFilter,
+    searchFilter,
+  );
   const projects = useGetProjects();
 
   if (projects.isLoading || issuesPage.isLoading) {
@@ -40,47 +76,110 @@ export function IssueList() {
   );
   const { items, meta } = issuesPage.data || {};
 
+  const handleSelectStatus = (option: string | undefined) => {
+    if (option === "Resolved") {
+      setFilters(page, "resolved", levelFilter, searchFilter);
+    } else if (option === "Unresolved") {
+      setFilters(page, "open", levelFilter, searchFilter);
+    } else if (option === undefined) {
+      setFilters(page, undefined, levelFilter, searchFilter);
+    }
+  };
+
+  const handleSelectLevel = (option: string | undefined) => {
+    const level = option && option.toLowerCase();
+    if (level === "error" || level === "info" || level === "warning") {
+      setFilters(page, statusFilter, level, searchFilter);
+    }
+  };
+
+  const handleSearch = (input: string) => {
+    setFilters(page, statusFilter, levelFilter, input);
+  };
+
   return (
-    <div className={styles.container}>
-      <table className={styles.table}>
-        <thead>
-          <tr className={styles.headerRow}>
-            <th className={styles.headerCell}>Issue</th>
-            <th className={styles.headerCell}>Level</th>
-            <th className={styles.headerCell}>Events</th>
-            <th className={styles.headerCell}>Users</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(items || []).map((issue) => (
-            <IssueRow
-              key={issue.id}
-              issue={issue}
-              projectLanguage={projectIdToLanguage[issue.projectId]}
-            />
-          ))}
-        </tbody>
-      </table>
-      <div className={styles.paginationContainer}>
+    <div>
+      <div className={styles.filters}>
         <div>
-          <button
-            className={styles.paginationButton}
-            onClick={() => navigateToPage(page - 1)}
-            disabled={page === 1}
+          <UIButton
+            as="button"
+            size="medium"
+            color="primary"
+            icon={true}
+            iconSrc="/icons/checkwhite.svg"
+            iconPosition="leading"
+            iconAlt="checkmark"
           >
-            Previous
-          </button>
-          <button
-            className={styles.paginationButton}
-            onClick={() => navigateToPage(page + 1)}
-            disabled={page === meta?.totalPages}
-          >
-            Next
-          </button>
+            Resolve selected issues
+          </UIButton>
         </div>
-        <div className={styles.pageInfo}>
-          Page <span className={styles.pageNumber}>{meta?.currentPage}</span> of{" "}
-          <span className={styles.pageNumber}>{meta?.totalPages}</span>
+        <div className={styles.inputs}>
+          <UISelect
+            onSelect={handleSelectStatus}
+            options={["Resolved", "Unresolved"]}
+            width="160px"
+            placeholder="Status"
+            defaultOption={statusDisplay}
+          />
+          <UISelect
+            onSelect={handleSelectLevel}
+            options={["Error", "Warning", "Info"]}
+            width="160px"
+            placeholder="Level"
+            defaultOption={levelDisplay}
+          />
+          <UIInput
+            onChange={handleSearch}
+            placeholder="Project Name"
+            icon="/icons/search.svg"
+          />
+        </div>
+      </div>
+      <div className={styles.container}>
+        <table className={styles.table}>
+          <thead>
+            <tr className={styles.headerRow}>
+              <th className={styles.headerCell}>Issue</th>
+              <th className={styles.headerCell}>Level</th>
+              <th className={styles.headerCell}>Events</th>
+              <th className={styles.headerCell}>Users</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(items || []).map((issue) => (
+              <IssueRow
+                key={issue.id}
+                issue={issue}
+                projectLanguage={projectIdToLanguage[issue.projectId]}
+              />
+            ))}
+          </tbody>
+        </table>
+        <div className={styles.paginationContainer}>
+          <div>
+            <button
+              className={styles.paginationButton}
+              onClick={() =>
+                setFilters(page - 1, statusFilter, levelFilter, searchFilter)
+              }
+              disabled={page === 1}
+            >
+              Previous
+            </button>
+            <button
+              className={styles.paginationButton}
+              onClick={() =>
+                setFilters(page + 1, statusFilter, levelFilter, searchFilter)
+              }
+              disabled={page === meta?.totalPages}
+            >
+              Next
+            </button>
+          </div>
+          <div className={styles.pageInfo}>
+            Page <span className={styles.pageNumber}>{meta?.currentPage}</span>{" "}
+            of <span className={styles.pageNumber}>{meta?.totalPages}</span>
+          </div>
         </div>
       </div>
     </div>
