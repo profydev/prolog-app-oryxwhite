@@ -63,7 +63,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
       </div>
       <div className={styles.bottomContainer}>
-        <Link href={Routes.issues} className={styles.viewIssuesAnchor}>
+        <Link
+          href={`${Routes.issues}?page=1&status=&level=&search=${name}`}
+          className={styles.viewIssuesAnchor}
+        >
           View issues
         </Link>
       </div>

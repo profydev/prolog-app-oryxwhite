@@ -36,7 +36,13 @@ describe("Project List", () => {
           cy.wrap($el).contains(statusStrings[index]);
           cy.wrap($el)
             .find("a")
-            .should("have.attr", "href", "/dashboard/issues");
+            .should(
+              "have.attr",
+              "href",
+              `/dashboard/issues?page=1&status=&level=&search=${mockProjects[
+                index
+              ].name.replace(/\s/g, "%20")}`,
+            );
         });
     });
 
