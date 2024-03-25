@@ -3,6 +3,7 @@ import { useGetContent } from "../../api/use-get-content";
 
 export function Hero() {
   const { data } = useGetContent();
+  console.log(data);
 
   return (
     <div>
