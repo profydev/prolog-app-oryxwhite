@@ -1,37 +1,75 @@
 @use "@styles/color";
 @use "@styles/space";
 @use "@styles/font";
+@use "@styles/breakpoint";
 
 .container {
   background: white;
-  border: 1px solid color.$gray-200;
+
+  // border: 1px solid color.$gray-200;
   box-sizing: border-box;
-  box-shadow:
-    0 4px 8px -2px rgb(16 24 40 / 10%),
-    0 2px 4px -2px rgb(16 24 40 / 6%);
   border-radius: space.$s2;
   overflow: hidden;
+
+  @media (width >= 845px) {
+    box-shadow:
+      0 4px 8px -2px rgb(16 24 40 / 10%),
+      0 2px 4px -2px rgb(16 24 40 / 6%);
+  }
 }
 
 .filters {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 25px;
+
+  @media (min-width: breakpoint.$desktop) {
+    flex-direction: row;
+  }
 
   .inputs {
     display: flex;
+    flex-direction: column;
     gap: 16px;
-    margin-right: 6px;
+    flex-basis: auto;
+    order: -1;
+    margin-bottom: 16px;
+
+    @media (min-width: breakpoint.$desktop) {
+      flex-direction: row;
+      order: 1;
+      margin-bottom: 0;
+    }
+
+    .select {
+      width: 100%;
+
+      @media (min-width: breakpoint.$desktop) {
+        width: 160px;
+      }
+    }
   }
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 16px;
 }
 
 .headerRow {
   border-bottom: 1px solid color.$gray-200;
+
+  :nth-child(1) {
+    display: flex;
+    gap: 12px;
+  }
+
+  @media (width <= 845px) {
+    display: none;
+  }
 }
 
 .headerCell {
