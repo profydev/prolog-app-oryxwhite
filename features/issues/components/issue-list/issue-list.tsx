@@ -5,10 +5,17 @@ import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import { UISelect, UIInput, UIButton } from "@features/ui";
 import styles from "./issue-list.module.scss";
+import { capitalize } from "lodash";
+import { UICheckbox } from "@features/ui";
 
 export type status = "open" | "resolved" | undefined;
 export type level = "error" | "warning" | "info" | undefined;
 export type search = string | undefined;
+
+const statusFiltertoDisplay = {
+  open: "Unresolved",
+  resolved: "Resolved",
+};
 
 export function IssueList() {
   const router = useRouter();
@@ -18,15 +25,8 @@ export function IssueList() {
   const searchFilter = router.query.search as search;
 
   // Adjust values to match the dropdown options
-  const statusDisplay =
-    statusFilter === "open"
-      ? "Unresolved"
-      : statusFilter === "resolved"
-        ? "Resolved"
-        : undefined;
-  const levelDisplay = levelFilter
-    ? levelFilter.charAt(0).toUpperCase() + levelFilter.slice(1)
-    : undefined;
+  const statusDisplay = statusFilter && statusFiltertoDisplay[statusFilter];
+  const levelDisplay = levelFilter && capitalize(levelFilter);
 
   const setFilters = (
     page: number,
@@ -90,6 +90,8 @@ export function IssueList() {
     const level = option && option.toLowerCase();
     if (level === "error" || level === "info" || level === "warning") {
       setFilters(page, statusFilter, level, searchFilter);
+    } else if (option === undefined) {
+      setFilters(page, statusFilter, undefined, searchFilter);
     }
   };
 
@@ -114,33 +116,47 @@ export function IssueList() {
           </UIButton>
         </div>
         <div className={styles.inputs}>
-          <UISelect
-            onSelect={handleSelectStatus}
-            options={["Resolved", "Unresolved"]}
-            width="160px"
-            placeholder="Status"
-            defaultOption={statusDisplay}
-          />
-          <UISelect
-            onSelect={handleSelectLevel}
-            options={["Error", "Warning", "Info"]}
-            width="160px"
-            placeholder="Level"
-            defaultOption={levelDisplay}
-          />
-          <UIInput
-            onChange={handleSearch}
-            placeholder="Project Name"
-            icon="/icons/search.svg"
-            value={searchFilter}
-          />
+          <div className={styles.select}>
+            <UISelect
+              onSelect={handleSelectStatus}
+              options={["Resolved", "Unresolved"]}
+              width="100%"
+              placeholder="Status"
+              defaultOption={statusDisplay}
+            />
+          </div>
+          <div className={styles.select}>
+            <UISelect
+              onSelect={handleSelectLevel}
+              options={["Error", "Warning", "Info"]}
+              width="100%"
+              placeholder="Level"
+              defaultOption={levelDisplay}
+            />
+          </div>
+          <div className={styles.input}>
+            <UIInput
+              onChange={handleSearch}
+              placeholder="Project Name"
+              icon="/icons/search.svg"
+              value={searchFilter}
+            />
+          </div>
         </div>
       </div>
       <div className={styles.container}>
         <table className={styles.table}>
           <thead>
             <tr className={styles.headerRow}>
-              <th className={styles.headerCell}>Issue</th>
+              <th className={styles.headerCell}>
+                <UICheckbox
+                  onChange={() => undefined}
+                  checked={false}
+                  size="medium"
+                ></UICheckbox>{" "}
+                Issue
+              </th>
+              <th className={styles.headerCell}>Graph</th>
               <th className={styles.headerCell}>Level</th>
               <th className={styles.headerCell}>Events</th>
               <th className={styles.headerCell}>Users</th>

@@ -2,20 +2,75 @@
 @use "@styles/space";
 @use "@styles/font";
 
-.row:nth-child(2n) {
-  background: color.$gray-50;
+@media (width >= 845px) {
+  .row:nth-child(2n) {
+    background: color.$gray-50;
+  }
 }
 
 .cell {
   padding: space.$s4 space.$s6;
   color: color.$gray-500;
   font: font.$text-sm-regular;
+
+  @media (width >= 845px) {
+    display: table-cell;
+    justify-content: baseline;
+    align-items: center;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: color.$gray-200 1px solid;
+  border-radius: 8px;
+  margin-bottom: 16px;
+
+  @media (width >= 845px) {
+    display: table-row;
+    border: none;
+    margin-bottom: 0;
+  }
+
+  .cell:nth-child(2) {
+    order: 5;
+  }
+
+  .cell:nth-child(3) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
 }
 
 .issueCell {
   composes: cell;
   display: flex;
+  flex-direction: row;
   align-items: center;
+
+  .checkbox {
+    margin-right: 12px;
+  }
+}
+
+.badges {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  .badgescontainer {
+    padding: space.$s4 space.$s6;
+    color: color.$gray-500;
+    font: font.$text-sm-regular;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+  }
 }
 
 .languageIcon {
