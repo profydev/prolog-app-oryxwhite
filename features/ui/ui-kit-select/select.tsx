@@ -46,7 +46,7 @@ export function UISelect({
 
   const handleReset = () => {
     setSelectedOption(null);
-    onSelect("");
+    onSelect(undefined);
     setIsOpen(false);
   };
 
