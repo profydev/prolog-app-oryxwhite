@@ -5,13 +5,12 @@
 
 .container {
   background: white;
-
-  // border: 1px solid color.$gray-200;
   box-sizing: border-box;
   border-radius: space.$s2;
   overflow: hidden;
 
   @media (width >= 845px) {
+    border: 1px solid color.$gray-200;
     box-shadow:
       0 4px 8px -2px rgb(16 24 40 / 10%),
       0 2px 4px -2px rgb(16 24 40 / 6%);
@@ -25,7 +24,7 @@
   align-items: center;
   margin-bottom: 25px;
 
-  @media (min-width: breakpoint.$desktop) {
+  @media (width >= 1219px) {
     flex-direction: row;
   }
 
@@ -37,7 +36,7 @@
     order: -1;
     margin-bottom: 16px;
 
-    @media (min-width: breakpoint.$desktop) {
+    @media (width >= 1219px) {
       flex-direction: row;
       order: 1;
       margin-bottom: 0;
@@ -46,7 +45,7 @@
     .select {
       width: 100%;
 
-      @media (min-width: breakpoint.$desktop) {
+      @media (width >= 1219px) {
         width: 160px;
       }
     }

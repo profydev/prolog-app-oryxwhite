@@ -37,7 +37,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   });
 
   return (
-    <div className={styles.row}>
+    <div className={styles.row} data-cy="row">
       <div className={styles.issueCell}>
         <div className={styles.checkbox}>
           <UICheckbox
@@ -61,10 +61,14 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </div>
       </div>
       <div className={styles.cell}>
-        <picture>
+        <picture className={styles.graph}>
           <source media="(max-width: 845px)" srcSet="/icons/chartmobile.png" />
           <source media="(min-width: 845px)" srcSet="/icons/chart.png" />
-          <img src="/icons/chart.png" alt="chart" />
+          <img
+            className={styles.graphchild}
+            src="/icons/chart.png"
+            alt="chart"
+          />
         </picture>
       </div>
 

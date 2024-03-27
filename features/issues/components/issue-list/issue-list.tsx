@@ -146,6 +146,14 @@ export function IssueList() {
       </div>
       <div className={styles.container}>
         <table className={styles.table}>
+          {/* <colgroup>
+          <col />
+          <col style={{width: '400px'}} />
+          <col style={{width: '100px'}}  />
+          <col style={{width: '400px'}}  />
+          <col style={{width: '400px'}}  />
+
+        </colgroup> */}
           <thead>
             <tr className={styles.headerRow}>
               <th className={styles.headerCell}>
